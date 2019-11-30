@@ -1,29 +1,29 @@
 <template>
-  <div class="game"></div>
+  <div class="game">
+    <table>
+      <tr v-for="(row, rowIndex) in board" :key="`row-${rowIndex}`">
+        <td v-for="(cell, colIndex) in row" :key="`col-${colIndex}`">
+          <pre>{{ cell }}</pre>
+        </td>
+      </tr>
+    </table>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { ICell } from '../models/ICell'
+import { initBoard } from '@/services/BoardService'
 
 @Component
 export default class Game extends Vue {
   private gameId: string = ''
+  private board: ICell[][] = initBoard()
 }
 </script>
 
-<style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+<style lang="scss" scoped>
+table {
+  margin: auto;
 }
 </style>
