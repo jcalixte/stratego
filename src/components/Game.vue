@@ -2,9 +2,11 @@
   <div class="game">
     <table>
       <tr v-for="(row, rowIndex) in board" :key="`row-${rowIndex}`">
-        <td v-for="(cell, colIndex) in row" :key="`col-${colIndex}`">
-          <pre>{{ cell }}</pre>
-        </td>
+        <cell
+          v-for="(cell, colIndex) in row"
+          :key="`col-${colIndex}`"
+          :cell="cell"
+        />
       </tr>
     </table>
   </div>
