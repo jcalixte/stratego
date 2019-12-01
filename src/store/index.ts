@@ -1,19 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { ICell } from '@/models/ICell'
+import VuexPersistence from 'vuex-persist'
 import mutations from './mutations'
 import actions from './actions'
+import state, { IState } from './state'
 
 Vue.use(Vuex)
 
-interface IState {
-  cellSelected: ICell | null
-}
+const vuexLocal = new VuexPersistence<IState>({
+  key: 'stratego',
+  storage: window.localStorage
+})
 
 export default new Vuex.Store<IState>({
-  state: {
-    cellSelected: null
-  },
+  state,
   mutations,
-  actions
+  actions,
+  plugins: [vuexLocal.plugin]
 })
