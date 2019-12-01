@@ -1,4 +1,4 @@
-enum ColumnLabel {
+export enum ColumnLabel {
   'A',
   'B',
   'C',
@@ -10,5 +10,3 @@ enum ColumnLabel {
   'I',
   'J'
 }
-
-export default ColumnLabel

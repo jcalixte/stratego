@@ -1,4 +1,4 @@
-enum Rank {
+export enum Rank {
   Na,
   Spy,
   Scout,
@@ -11,5 +11,3 @@ enum Rank {
   General,
   Marshall
 }
-
-export default Rank

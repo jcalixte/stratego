@@ -1,7 +1,5 @@
-enum PieceType {
+export enum PieceType {
   Flag,
   Bomb,
   Unit
 }
-
-export default PieceType

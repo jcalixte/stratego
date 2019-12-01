@@ -1,6 +1,4 @@
-enum ColorPlayer {
+export enum ColorPlayer {
   Blue,
   Red
 }
-
-export default ColorPlayer
