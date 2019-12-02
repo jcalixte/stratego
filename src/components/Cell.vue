@@ -1,7 +1,7 @@
 <template>
-  <div class="cell">
-    <td>{{ cell }}</td>
-  </div>
+  <td class="cell">
+    <pre>{{ cell }}</pre>
+  </td>
 </template>
 
 <script lang="ts">

@@ -1,17 +1,16 @@
 import { ICell, IBoard } from '@/models/ICell'
 import { IPiece } from '@/models/IPiece'
-import { IPlayer } from '@/models/IPlayer'
 import { ColorPlayer } from '@/enums/ColorPlayer'
 
 export const initBoard = (): IBoard => {
-  const row: ICell[] = Array.from({ length: 10 }, (_c, rowIndex: number) => ({
-    row: rowIndex,
-    col: 0,
+  const row: ICell[] = Array.from({ length: 10 }, (_c, colIndex: number) => ({
+    row: 0,
+    col: colIndex,
     piece: null
   }))
 
-  return Array.from({ length: 10 }, (_r, colIndex: number) =>
-    row.map((cell: ICell) => ({ ...cell, col: colIndex }))
+  return Array.from({ length: 10 }, (_r, rowIndex: number) =>
+    row.map((cell: ICell) => ({ ...cell, row: rowIndex }))
   )
 }
 
@@ -33,11 +32,11 @@ export const putInBoard = (
   return board
 }
 
-export const getPlayerZone = (player: IPlayer, board: IBoard) => {
-  switch (player.color) {
-    case ColorPlayer.Blue:
-      return board.filter((_row, rowIndex) => rowIndex < 4)
+export const getPlayerZone = (colorPlayer: ColorPlayer, board: IBoard) => {
+  switch (colorPlayer) {
     case ColorPlayer.Red:
+      return board.filter((_row, rowIndex) => rowIndex < 4)
+    case ColorPlayer.Blue:
       return board.filter((_row, rowIndex) => rowIndex > 5)
   }
   return board
