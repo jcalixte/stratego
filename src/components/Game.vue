@@ -1,15 +1,29 @@
 <template>
-  <div class="game">
-    <table>
-      <tr v-for="(row, rowIndex) in board" :key="`row-${rowIndex}`">
+  <section class="game">
+    <aside>
+      <h2>
+        Player 1
+      </h2>
+    </aside>
+    <section class="board">
+      <section
+        class="row"
+        v-for="(row, rowIndex) in board"
+        :key="`row-${rowIndex}`"
+      >
         <Cell
           v-for="(cell, colIndex) in row"
           :key="`col-${colIndex}`"
           :cell="cell"
         />
-      </tr>
-    </table>
-  </div>
+      </section>
+    </section>
+    <aside>
+      <h2>
+        Player 2
+      </h2>
+    </aside>
+  </section>
 </template>
 
 <script lang="ts">
@@ -30,7 +44,21 @@ export default class Game extends Vue {
 </script>
 
 <style lang="scss" scoped>
-table {
+section.game {
+  display: flex;
+  margin: 0 1rem;
+}
+section.board {
   margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.row {
+  display: flex;
 }
 </style>

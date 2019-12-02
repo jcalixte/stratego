@@ -1,7 +1,7 @@
 <template>
-  <td class="cell">
+  <section class="cell">
     <pre>{{ cell }}</pre>
-  </td>
+  </section>
 </template>
 
 <script lang="ts">
@@ -16,7 +16,7 @@ export default class Cell extends Vue {
 </script>
 
 <style lang="scss" scoped>
-table {
-  margin: auto;
+section {
+  flex: 1;
 }
 </style>
