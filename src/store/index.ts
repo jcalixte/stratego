@@ -14,6 +14,10 @@ const vuexLocal = new VuexPersistence<IState>({
 
 export default new Vuex.Store<IState>({
   state,
+  getters: {
+    cellSelected: ({ cellSelected }) => cellSelected,
+    pieceSelected: ({ cellSelected }) => cellSelected?.piece ?? null
+  },
   mutations,
   actions,
   plugins: [vuexLocal.plugin]

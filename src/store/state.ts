@@ -1,11 +1,14 @@
 import { ICell } from '@/models/ICell'
+import { IPiece } from '@/models/IPiece'
 
 export interface IState {
   guid: string
   cellSelected: ICell | null
 }
 
-export default {
+const state: IState = {
   cellSelected: null,
   guid: ''
-} as IState
+}
+
+export default state

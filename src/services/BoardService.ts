@@ -32,7 +32,10 @@ export const putInBoard = (
   return board
 }
 
-export const getPlayerZone = (colorPlayer: ColorPlayer, board: IBoard) => {
+export const getPlayerZone = (
+  colorPlayer: ColorPlayer,
+  board: IBoard
+): IBoard => {
   switch (colorPlayer) {
     case ColorPlayer.Red:
       return board.filter((_row, rowIndex) => rowIndex < 4)
