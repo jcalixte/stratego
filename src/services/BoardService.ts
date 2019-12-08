@@ -1,6 +1,8 @@
 import { ICell, IBoard } from '@/models/ICell'
 import { IPiece } from '@/models/IPiece'
 import { ColorPlayer } from '@/enums/ColorPlayer'
+import { IPlayer } from '@/models/IPlayer'
+import { initPlayerPieces } from './PlayerService'
 
 export const initBoard = (): IBoard => {
   const row: ICell[] = Array.from({ length: 10 }, (_c, colIndex: number) => ({
@@ -42,5 +44,16 @@ export const getPlayerZone = (
     case ColorPlayer.Blue:
       return board.filter((_row, rowIndex) => rowIndex > 5)
   }
-  return board
+}
+
+export const initPlayers = () => {
+  const player1: IPlayer = {
+    color: ColorPlayer.Blue,
+    pieces: initPlayerPieces(ColorPlayer.Blue)
+  }
+  const player2: IPlayer = {
+    color: ColorPlayer.Red,
+    pieces: initPlayerPieces(ColorPlayer.Red)
+  }
+  return [player1, player2]
 }

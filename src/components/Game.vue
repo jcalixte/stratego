@@ -1,9 +1,12 @@
 <template>
   <section class="game">
-    <aside>
-      <h2>
-        Player 1
-      </h2>
+    <aside v-for="(player, p) in players" :key="player.color">
+      <h2>Joueur {{ p + 1 }}</h2>
+      <ul>
+        <li v-for="(piece, k) in player.pieces" :key="k">
+          <pre>{{ piece }}</pre>
+        </li>
+      </ul>
     </aside>
     <section class="board">
       <section
@@ -18,19 +21,15 @@
         />
       </section>
     </section>
-    <aside>
-      <h2>
-        Player 2
-      </h2>
-    </aside>
   </section>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { ICell } from '../models/ICell'
-import { initBoard } from '@/services/BoardService'
+import { initBoard, initPlayers } from '@/services/BoardService'
 import Cell from '@/components/Cell.vue'
+import { IPlayer } from '../models/IPlayer'
 
 @Component({
   components: {
@@ -40,6 +39,7 @@ import Cell from '@/components/Cell.vue'
 export default class Game extends Vue {
   private gameId: string = ''
   private board: ICell[][] = initBoard()
+  private players: IPlayer[] = initPlayers()
 }
 </script>
 
@@ -56,6 +56,7 @@ section.board {
   align-items: center;
   justify-content: center;
   flex: 1;
+  order: 1;
 }
 
 .row {

@@ -5,5 +5,5 @@ import { ColorPlayer } from '@/enums/ColorPlayer'
 export interface IPiece {
   color: ColorPlayer
   type: PieceType
-  rank: Rank
+  rank?: Rank
 }
