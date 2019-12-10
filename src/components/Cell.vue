@@ -23,5 +23,8 @@ export default class Cell extends Vue {
 section {
   flex: 1;
   border: 0.5px solid black;
+  pre {
+    font-size: 10px;
+  }
 }
 </style>

@@ -2,11 +2,7 @@
   <section class="game">
     <aside v-for="(player, p) in players" :key="player.color">
       <h2>Joueur {{ p + 1 }}</h2>
-      <ul>
-        <li v-for="(piece, k) in player.pieces" :key="k">
-          <PieceBoard :piece="piece" />
-        </li>
-      </ul>
+      <PlayerPiece :player="player" />
     </aside>
     <section class="board">
       <section
@@ -29,13 +25,13 @@ import { Component, Vue } from 'vue-property-decorator'
 import { ICell } from '../models/ICell'
 import { initBoard, initPlayers } from '@/services/BoardService'
 import Cell from '@/components/Cell.vue'
-import PieceBoard from '@/components/PieceBoard.vue'
+import PlayerPiece from '@/components/PlayerPiece.vue'
 import { IPlayer } from '../models/IPlayer'
 
 @Component({
   components: {
     Cell,
-    PieceBoard
+    PlayerPiece
   }
 })
 export default class Game extends Vue {
