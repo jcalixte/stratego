@@ -1,8 +1,8 @@
 <template>
   <section class="game">
-    <aside v-for="(player, p) in players" :key="player.color">
-      <h2>Joueur {{ p + 1 }}</h2>
-      <PlayerPiece :player="player" />
+    <aside v-if="player1">
+      <h4>Joueur 1</h4>
+      <PlayerPiece :player="player1" />
     </aside>
     <section class="board">
       <section
@@ -17,6 +17,10 @@
         />
       </section>
     </section>
+    <aside v-if="player2">
+      <h4>Joueur 2</h4>
+      <PlayerPiece :player="player2" />
+    </aside>
   </section>
 </template>
 
@@ -38,6 +42,20 @@ export default class Game extends Vue {
   private gameId: string = ''
   private board: ICell[][] = initBoard()
   private players: IPlayer[] = initPlayers()
+
+  private get player1(): IPlayer | null {
+    if (this.players.length) {
+      return this.players[0]
+    }
+    return null
+  }
+
+  private get player2(): IPlayer | null {
+    if (this.players.length === 2) {
+      return this.players[1]
+    }
+    return null
+  }
 }
 </script>
 
@@ -47,6 +65,7 @@ section.game {
   margin: 0 1rem;
   align-items: flex-start;
 }
+
 section.board {
   margin: 0 auto;
   display: flex;
@@ -55,7 +74,6 @@ section.board {
   align-items: center;
   justify-content: center;
   flex: 1;
-  order: 1;
 }
 
 .row {
