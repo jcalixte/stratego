@@ -14,6 +14,7 @@
           v-for="(cell, colIndex) in row"
           :key="`col-${colIndex}`"
           :cell="cell"
+          :display-player-zone="true"
         />
       </section>
     </section>

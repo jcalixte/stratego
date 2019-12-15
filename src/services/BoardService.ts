@@ -34,6 +34,16 @@ export const putInBoard = (
   return board
 }
 
+export const getPlayerZoneByRowIndex = (row: number): ColorPlayer | null => {
+  if (row < 4) {
+    return ColorPlayer.Red
+  }
+  if (row > 5) {
+    return ColorPlayer.Blue
+  }
+  return null
+}
+
 export const getPlayerZone = (
   colorPlayer: ColorPlayer,
   board: IBoard
