@@ -1,5 +1,8 @@
 <template>
-  <section class="cell" :class="{ odd: isOdd }">
+  <section
+    class="cell"
+    :class="{ odd: isPlayable && isOdd, playable: isPlayable }"
+  >
     <section :class="colorZone">
       <piece-board v-if="cell.piece" :piece="cell.piece" />
     </section>
@@ -10,7 +13,10 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { ICell } from '../models/ICell'
 import PieceBoard from './PieceBoard.vue'
-import { getPlayerZoneByRowIndex } from '@/services/BoardService'
+import {
+  getPlayerZoneByRowIndex,
+  isCellPlayable
+} from '@/services/BoardService'
 import { ColorPlayer } from '../enums/ColorPlayer'
 
 @Component({
@@ -24,6 +30,10 @@ export default class Cell extends Vue {
 
   private get isOdd(): boolean {
     return (this.cell.row + this.cell.col) % 2 === 1
+  }
+
+  private get isPlayable(): boolean {
+    return isCellPlayable(this.cell.row, this.cell.col)
   }
 
   private get colorZone() {
@@ -47,9 +57,12 @@ export default class Cell extends Vue {
 
 section {
   flex: 1;
-  border: 0.5px solid black;
   width: 60px;
   height: 60px;
+
+  &.playable {
+    border: 0.5px solid black;
+  }
   pre {
     font-size: 10px;
   }

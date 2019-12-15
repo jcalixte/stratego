@@ -34,6 +34,15 @@ export const putInBoard = (
   return board
 }
 
+export const isCellPlayable = (row: number, col: number): boolean => {
+  const nonRows = [4, 5]
+  const nonCols = [2, 3, 6, 7]
+
+  const notPlayable = nonRows.includes(row) && nonCols.includes(col)
+
+  return !notPlayable
+}
+
 export const getPlayerZoneByRowIndex = (row: number): ColorPlayer | null => {
   if (row < 4) {
     return ColorPlayer.Red
