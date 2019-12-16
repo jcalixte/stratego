@@ -65,14 +65,9 @@ export const getPlayerZone = (
   }
 }
 
-export const initPlayers = () => {
-  const player1: IPlayer = {
-    color: ColorPlayer.Blue,
-    pieces: initPlayerPieces(ColorPlayer.Blue)
+export const initPlayer = (color: ColorPlayer): IPlayer => {
+  return {
+    color,
+    pieces: initPlayerPieces(color)
   }
-  const player2: IPlayer = {
-    color: ColorPlayer.Red,
-    pieces: initPlayerPieces(ColorPlayer.Red)
-  }
-  return [player1, player2]
 }

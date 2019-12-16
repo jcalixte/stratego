@@ -15,6 +15,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Getter } from 'vuex-class'
+
 import { ICell } from '../models/ICell'
 import PieceBoard from './PieceBoard.vue'
 import {
@@ -22,6 +24,7 @@ import {
   isCellPlayable
 } from '@/services/BoardService'
 import { ColorPlayer } from '../enums/ColorPlayer'
+import { Phase } from '../enums/Phase'
 
 @Component({
   components: { PieceBoard }
@@ -31,6 +34,9 @@ export default class Cell extends Vue {
   private cell!: ICell
   @Prop({ type: Boolean, default: false })
   private displayPlayerZone!: boolean
+
+  @Getter
+  private gamePhase!: Phase
 
   private get isOdd(): boolean {
     return (this.cell.row + this.cell.col) % 2 === 1

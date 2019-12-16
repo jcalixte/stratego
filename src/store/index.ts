@@ -15,6 +15,9 @@ const vuexLocal = new VuexPersistence<IState>({
 export default new Vuex.Store<IState>({
   state,
   getters: {
+    gamePhase: ({ gamePhase }) => gamePhase,
+    player1: ({ player1 }) => player1,
+    player2: ({ player2 }) => player2,
     cellSelected: ({ cellSelected }) => cellSelected,
     pieceSelected: ({ cellSelected }) => cellSelected?.piece ?? null
   },

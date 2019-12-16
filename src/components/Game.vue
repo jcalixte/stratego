@@ -27,11 +27,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { ICell } from '../models/ICell'
-import { initBoard, initPlayers } from '@/services/BoardService'
+import { Getter } from 'vuex-class'
+
+import { ICell } from '@/models/ICell'
+import { initBoard } from '@/services/BoardService'
 import Cell from '@/components/Cell.vue'
 import PlayerPiece from '@/components/PlayerPiece.vue'
-import { IPlayer } from '../models/IPlayer'
+import { IPlayer } from '@/models/IPlayer'
 
 @Component({
   components: {
@@ -42,21 +44,11 @@ import { IPlayer } from '../models/IPlayer'
 export default class Game extends Vue {
   private gameId: string = ''
   private board: ICell[][] = initBoard()
-  private players: IPlayer[] = initPlayers()
 
-  private get player1(): IPlayer | null {
-    if (this.players.length) {
-      return this.players[0]
-    }
-    return null
-  }
-
-  private get player2(): IPlayer | null {
-    if (this.players.length === 2) {
-      return this.players[1]
-    }
-    return null
-  }
+  @Getter
+  private player1!: IPlayer
+  @Getter
+  private player2!: IPlayer
 }
 </script>
 
