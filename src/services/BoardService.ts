@@ -5,14 +5,14 @@ import { IPlayer } from '@/models/IPlayer'
 import { initPlayerPieces } from './PlayerService'
 
 export const initBoard = (): IBoard => {
-  const row: ICell[] = Array.from({ length: 10 }, (_c, colIndex: number) => ({
+  const rows: ICell[] = Array.from({ length: 10 }, (_c, col: number) => ({
     row: 0,
-    col: colIndex,
+    col,
     piece: null
   }))
 
-  return Array.from({ length: 10 }, (_r, rowIndex: number) =>
-    row.map((cell: ICell) => ({ ...cell, row: rowIndex }))
+  return Array.from({ length: 10 }, (_r, row: number) =>
+    rows.map((cell: ICell) => ({ ...cell, row }))
   )
 }
 
