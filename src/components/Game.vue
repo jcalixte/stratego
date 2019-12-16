@@ -79,5 +79,6 @@ section.board {
 
 .row {
   display: flex;
+  justify-content: space-around;
 }
 </style>

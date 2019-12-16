@@ -1,7 +1,11 @@
 <template>
   <section
     class="cell"
-    :class="{ odd: isPlayable && isOdd, playable: isPlayable }"
+    :class="{
+      odd: isPlayable && isOdd,
+      playable: isPlayable,
+      'non-playable': !isPlayable
+    }"
   >
     <section :class="colorZone">
       <piece-board v-if="cell.piece" :piece="cell.piece" />
@@ -63,6 +67,11 @@ section {
   &.playable {
     border: 0.5px solid black;
   }
+
+  &.non-playable {
+    border: 0.5px solid #00000000;
+  }
+
   pre {
     font-size: 10px;
   }
