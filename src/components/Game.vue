@@ -29,7 +29,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
 
-import { ICell } from '@/models/ICell'
+import { IBoard } from '@/models/ICell'
 import { initBoard } from '@/services/BoardService'
 import Cell from '@/components/Cell.vue'
 import PlayerPiece from '@/components/PlayerPiece.vue'
@@ -43,8 +43,8 @@ import { IPlayer } from '@/models/IPlayer'
 })
 export default class Game extends Vue {
   private gameId: string = ''
-  private board: ICell[][] = initBoard()
-
+  @Getter
+  private board!: IBoard
   @Getter
   private player1!: IPlayer
   @Getter
