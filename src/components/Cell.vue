@@ -6,6 +6,8 @@
       playable: isPlayable,
       'non-playable': !isPlayable
     }"
+    @dragover="dragover"
+    @drop="drop"
   >
     <section :class="colorZone">
       <piece-board v-if="cell.piece" :piece="cell.piece" />
@@ -15,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Getter } from 'vuex-class'
+import { Getter, Action } from 'vuex-class'
 
 import { ICell } from '../models/ICell'
 import PieceBoard from './PieceBoard.vue'
@@ -23,8 +25,10 @@ import {
   getPlayerZoneByRowIndex,
   isCellPlayable
 } from '@/services/BoardService'
+import { getPlayerAndPieceId } from '@/services/PlayerService'
 import { ColorPlayer } from '../enums/ColorPlayer'
 import { Phase } from '../enums/Phase'
+import { IPlayer } from '../models/IPlayer'
 
 @Component({
   components: { PieceBoard }
@@ -37,6 +41,33 @@ export default class Cell extends Vue {
 
   @Getter
   private gamePhase!: Phase
+  @Getter
+  private player1!: IPlayer
+  @Getter
+  private player2!: IPlayer
+  @Action
+  private setPieceToCell!: any
+
+  private dragover(event: any) {
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'move'
+  }
+
+  private drop(event: any) {
+    event.preventDefault()
+    const playerAndPieceId = event.dataTransfer.getData('text')
+    const { player, pieceId } = getPlayerAndPieceId(playerAndPieceId)
+    if (this.colorPlayer !== player) {
+      return
+    }
+    const realPlayer = player === ColorPlayer.Red ? this.player1 : this.player2
+    const piece = realPlayer.pieces.find((p) => p.id === pieceId)
+    this.setPieceToCell({ cell: this.cell, piece })
+  }
+
+  private get id(): string {
+    return `cell-${this.cell.row}-${this.cell.col}`
+  }
 
   private get isOdd(): boolean {
     return (this.cell.row + this.cell.col) % 2 === 1
@@ -46,15 +77,18 @@ export default class Cell extends Vue {
     return isCellPlayable(this.cell.row, this.cell.col)
   }
 
-  private get colorZone() {
+  private get colorPlayer(): ColorPlayer | null {
     if (!this.displayPlayerZone) {
       return null
     }
-    const colorPlayer = getPlayerZoneByRowIndex(this.cell.row)
-    if (colorPlayer === ColorPlayer.Red) {
+    return getPlayerZoneByRowIndex(this.cell.row)
+  }
+
+  private get colorZone() {
+    if (this.colorPlayer === ColorPlayer.Red) {
       return 'red'
     }
-    if (colorPlayer === ColorPlayer.Blue) {
+    if (this.colorPlayer === ColorPlayer.Blue) {
       return 'blue'
     }
     return null
@@ -66,7 +100,10 @@ export default class Cell extends Vue {
 @import '@/styles/variables';
 
 section {
+  display: flex;
   flex: 1;
+  justify-content: center;
+  align-items: center;
   width: 60px;
   height: 60px;
 

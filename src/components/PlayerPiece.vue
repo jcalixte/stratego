@@ -1,7 +1,7 @@
 <template>
   <div class="player-piece">
     <div v-for="(piece, k) in player.pieces" :key="k">
-      <PieceBoard :piece="piece" />
+      <PieceBoard :player="player.color" :piece="piece" />
     </div>
   </div>
 </template>

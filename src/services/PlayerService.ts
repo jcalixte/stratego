@@ -213,3 +213,11 @@ export const initPlayerPieces = (color: ColorPlayer): IPiece[] => {
     }
   ]
 }
+
+export const getPlayerAndPieceId = (playerAndPieceId: string) => {
+  const [player, pieceId] = playerAndPieceId.split('_')
+  return {
+    player: parseInt(player, 10) as ColorPlayer,
+    pieceId
+  }
+}
