@@ -114,8 +114,8 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
 
   &.playable {
     border: 0.5px solid black;
