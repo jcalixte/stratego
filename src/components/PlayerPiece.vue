@@ -1,5 +1,5 @@
 <template>
-  <div class="player-piece">
+  <div class="player-piece" v-if="pieces.length">
     <PieceBoard
       v-for="(piece, k) in pieces"
       :key="k"
@@ -20,7 +20,7 @@ import { IPiece } from '../models/IPiece'
     PieceBoard
   }
 })
-export default class Game extends Vue {
+export default class PlayerPiece extends Vue {
   @Prop({ type: Object, required: true })
   private player!: IPlayer
   @Prop({ type: Array, required: true })

@@ -19,7 +19,11 @@ export default {
   [SET_PIECE_TO_CELL](state, { piece, cell }: IPieceToCell) {
     const cellBoard = state.board[cell.row][cell.col]
     if (cellBoard) {
-      cellBoard.piece = { ...piece }
+      if (piece) {
+        cellBoard.piece = { ...piece }
+      } else {
+        cellBoard.piece = null
+      }
     }
   },
   [CLEAR_BOARD]({ board }) {

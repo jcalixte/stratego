@@ -3,5 +3,8 @@ export enum GameStatus {
   PlayersSet,
   Player1Ready,
   Player2Ready,
-  Live
+  Live,
+  Player1Playing,
+  Player2Playing,
+  Ended
 }

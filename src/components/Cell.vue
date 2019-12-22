@@ -6,6 +6,7 @@
       playable: isPlayable,
       'non-playable': !isPlayable
     }"
+    @dblclick="clear"
     @dragover="dragover"
     @drop="drop"
   >
@@ -27,8 +28,9 @@ import {
 } from '@/services/BoardService'
 import { getPlayerAndPieceId } from '@/services/PlayerService'
 import { ColorPlayer } from '../enums/ColorPlayer'
-import { Phase } from '../enums/Phase'
 import { IPlayer } from '../models/IPlayer'
+import { IGame } from '../models/IGame'
+import { GameStatus } from '../enums/GameStatus'
 
 @Component({
   components: { PieceBoard }
@@ -40,7 +42,7 @@ export default class Cell extends Vue {
   private displayPlayerZone!: boolean
 
   @Getter
-  private gamePhase!: Phase
+  private game!: IGame
   @Getter
   private player1!: IPlayer
   @Getter
@@ -94,6 +96,13 @@ export default class Cell extends Vue {
       return 'blue'
     }
     return null
+  }
+
+  private clear() {
+    if (this.game.status >= GameStatus.Live) {
+      return
+    }
+    this.setPieceToCell({ cell: this.cell, piece: null })
   }
 }
 </script>

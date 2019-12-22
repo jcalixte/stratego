@@ -2,6 +2,7 @@
   <section class="game">
     <aside v-if="player1">
       <h4>Joueur 1</h4>
+      <h5 v-if="isPlayer1Ready">Joueur 1 prêt !</h5>
       <PlayerPiece :player="player1" :pieces="player1UnsetPieces" />
     </aside>
     <section class="board">
@@ -20,6 +21,7 @@
     </section>
     <aside v-if="player2">
       <h4>Joueur 2</h4>
+      <h5 v-if="isPlayer2Ready">Joueur 2 prêt !</h5>
       <PlayerPiece :player="player2" :pieces="player2UnsetPieces" />
     </aside>
   </section>
@@ -45,6 +47,8 @@ import { IPiece } from '../models/IPiece'
 export default class Game extends Vue {
   private gameId: string = ''
   @Getter
+  private game!: Game
+  @Getter
   private board!: IBoard
   @Getter
   private player1!: IPlayer
@@ -54,6 +58,10 @@ export default class Game extends Vue {
   private player2!: IPlayer
   @Getter
   private player2UnsetPieces!: IPiece[]
+  @Getter
+  private isPlayer1Ready!: boolean
+  @Getter
+  private isPlayer2Ready!: boolean
 }
 </script>
 
@@ -71,11 +79,11 @@ section.board {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  flex: 1;
 }
 
 .row {
   display: flex;
+  flex: 1 0 100%;
   justify-content: space-around;
 }
 </style>
