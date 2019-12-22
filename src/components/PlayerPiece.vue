@@ -1,6 +1,7 @@
 <template>
   <div class="player-piece" v-if="pieces.length">
     <PieceBoard
+      class="piece-board"
       v-for="(piece, k) in pieces"
       :key="k"
       :player="player.color"
@@ -28,12 +29,16 @@ export default class PlayerPiece extends Vue {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .player-piece {
   display: grid;
-  grid-template-columns: 50px 50px 50px 50px;
+  grid-template-columns: repeat(6, 50px);
   grid-gap: 5px;
   border: 2px solid #444;
-  margin: 0 5px;
+  margin: 5px;
+
+  .piece-board {
+    margin: 5px 0;
+  }
 }
 </style>
