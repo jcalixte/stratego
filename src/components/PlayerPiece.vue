@@ -1,8 +1,11 @@
 <template>
   <div class="player-piece">
-    <div v-for="(piece, k) in pieces" :key="k">
-      <PieceBoard :player="player.color" :piece="piece" />
-    </div>
+    <PieceBoard
+      v-for="(piece, k) in pieces"
+      :key="k"
+      :player="player.color"
+      :piece="piece"
+    />
   </div>
 </template>
 

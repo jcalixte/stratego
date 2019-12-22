@@ -1,6 +1,8 @@
 <template>
   <div class="piece-board" draggable="true" @dragstart="dragstart">
-    <div>{{ piece.rank || piece.type }}</div>
+    <div>
+      <span>{{ piece.rank }}</span>
+    </div>
     <img v-if="hasAsset" :src="getAsset()" :alt="piece.rank" />
   </div>
 </template>
@@ -58,6 +60,13 @@ export default class PieceBoard extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.piece-board {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 img {
   width: 30px;
   height: auto;
