@@ -60,7 +60,7 @@ export default class Cell extends Vue {
     if (this.colorPlayer !== player) {
       return
     }
-    const realPlayer = player === ColorPlayer.Red ? this.player1 : this.player2
+    const realPlayer = player === ColorPlayer.Blue ? this.player1 : this.player2
     const piece = realPlayer.pieces.find((p) => p.id === pieceId)
     this.setPieceToCell({ cell: this.cell, piece })
   }

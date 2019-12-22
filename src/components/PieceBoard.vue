@@ -31,7 +31,10 @@ export default class PieceBoard extends Vue {
   }
 
   private getAsset() {
-    if (this.piece.type !== PieceType.Unit) {
+    if (
+      this.piece.type !== PieceType.Unit &&
+      this.pieceAsset.type[this.piece.type]
+    ) {
       return images(`./${this.pieceAsset.type[this.piece.type]}`)
     }
     if (
@@ -47,7 +50,8 @@ export default class PieceBoard extends Vue {
     if (this.player === undefined) {
       return
     }
-    event.dataTransfer.setData('text', `${this.player}_${this.piece.id}`)
+    const id = `${this.player}_${this.piece.id}`
+    event.dataTransfer.setData('text', id)
     event.dataTransfer.dropEffect = 'move'
   }
 }

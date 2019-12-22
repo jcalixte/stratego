@@ -2,7 +2,7 @@
   <section class="game">
     <aside v-if="player1">
       <h4>Joueur 1</h4>
-      <PlayerPiece :player="player1" />
+      <PlayerPiece :player="player1" :pieces="player1UnsetPieces" />
     </aside>
     <section class="board">
       <section
@@ -20,7 +20,7 @@
     </section>
     <aside v-if="player2">
       <h4>Joueur 2</h4>
-      <PlayerPiece :player="player2" />
+      <PlayerPiece :player="player2" :pieces="player2UnsetPieces" />
     </aside>
   </section>
 </template>
@@ -34,6 +34,7 @@ import { initBoard } from '@/services/BoardService'
 import Cell from '@/components/Cell.vue'
 import PlayerPiece from '@/components/PlayerPiece.vue'
 import { IPlayer } from '@/models/IPlayer'
+import { IPiece } from '../models/IPiece'
 
 @Component({
   components: {
@@ -48,7 +49,11 @@ export default class Game extends Vue {
   @Getter
   private player1!: IPlayer
   @Getter
+  private player1UnsetPieces!: IPiece[]
+  @Getter
   private player2!: IPlayer
+  @Getter
+  private player2UnsetPieces!: IPiece[]
 }
 </script>
 

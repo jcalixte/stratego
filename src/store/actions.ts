@@ -1,6 +1,11 @@
 import { ActionTree } from 'vuex'
 import { IState } from './state'
-import { SET_GUID, SET_PIECE_TO_CELL, IPieceToCell } from './mutations'
+import {
+  IPieceToCell,
+  SET_GUID,
+  SET_PIECE_TO_CELL,
+  CLEAR_BOARD
+} from './mutations'
 import uuid from 'uuid/v4'
 
 export default {
@@ -13,5 +18,8 @@ export default {
     if (cell) {
       commit(SET_PIECE_TO_CELL, { piece, cell })
     }
+  },
+  clearBoard({ commit }) {
+    commit(CLEAR_BOARD)
   }
 } as ActionTree<IState, IState>

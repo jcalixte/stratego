@@ -1,6 +1,6 @@
 <template>
   <div class="player-piece">
-    <div v-for="(piece, k) in player.pieces" :key="k">
+    <div v-for="(piece, k) in pieces" :key="k">
       <PieceBoard :player="player.color" :piece="piece" />
     </div>
   </div>
@@ -10,6 +10,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { IPlayer } from '../models/IPlayer'
 import PieceBoard from '@/components/PieceBoard.vue'
+import { IPiece } from '../models/IPiece'
 
 @Component({
   components: {
@@ -19,6 +20,8 @@ import PieceBoard from '@/components/PieceBoard.vue'
 export default class Game extends Vue {
   @Prop({ type: Object, required: true })
   private player!: IPlayer
+  @Prop({ type: Array, required: true })
+  private pieces!: IPiece[]
 }
 </script>
 
