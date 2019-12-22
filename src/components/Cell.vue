@@ -112,11 +112,10 @@ export default class Cell extends Vue {
 
 section {
   display: flex;
-  flex: 1;
   justify-content: center;
   align-items: center;
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
 
   &.playable {
     border: 0.5px solid black;

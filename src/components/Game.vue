@@ -1,8 +1,10 @@
 <template>
   <section class="game">
     <aside v-if="player1">
-      <h4>Joueur 1</h4>
-      <h5 v-if="isPlayer1Ready">Joueur 1 prêt !</h5>
+      <h4>
+        Joueur 1
+        <span v-if="isPlayer1Ready">prêt&nbsp;!</span>
+      </h4>
       <PlayerPiece :player="player1" :pieces="player1UnsetPieces" />
     </aside>
     <section class="board">
@@ -20,8 +22,10 @@
       </section>
     </section>
     <aside v-if="player2">
-      <h4>Joueur 2</h4>
-      <h5 v-if="isPlayer2Ready">Joueur 2 prêt !</h5>
+      <h4>
+        Joueur 2
+        <span v-if="isPlayer2Ready">prêt&nbsp;!</span>
+      </h4>
       <PlayerPiece :player="player2" :pieces="player2UnsetPieces" />
     </aside>
   </section>
@@ -79,11 +83,16 @@ section.board {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  flex: 1;
+}
+
+aside {
+  flex: 1;
 }
 
 .row {
   display: flex;
   flex: 1 0 100%;
-  justify-content: space-around;
+  justify-content: center;
 }
 </style>
