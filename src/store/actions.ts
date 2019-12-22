@@ -4,7 +4,10 @@ import {
   IPieceToCell,
   SET_GUID,
   SET_PIECE_TO_CELL,
-  CLEAR_BOARD
+  CLEAR_BOARD,
+  PLAYER_1_READY,
+  PLAYER_2_READY,
+  PLAY_PLAYER_ONE
 } from './mutations'
 import uuid from 'uuid/v4'
 
@@ -21,5 +24,14 @@ export default {
   },
   clearBoard({ commit }) {
     commit(CLEAR_BOARD)
+  },
+  player1Ready({ commit }) {
+    commit(PLAYER_1_READY)
+  },
+  player2Ready({ commit }) {
+    commit(PLAYER_2_READY)
+  },
+  timeToPlay({ commit }) {
+    commit(PLAY_PLAYER_ONE)
   }
 } as ActionTree<IState, IState>

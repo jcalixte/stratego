@@ -39,13 +39,13 @@ export default new Vuex.Store<IState>({
     player1UnsetPieces: ({ board, player1 }) =>
       unsetPieces(board, player1.pieces),
     isPlayer1Ready: ({ game, board, player1 }) =>
-      game.status === GameStatus.Pending &&
+      game.status < GameStatus.Player1Ready &&
       unsetPieces(board, player1.pieces).length === 0,
     player2: ({ player2 }) => player2,
     player2UnsetPieces: ({ board, player2 }) =>
       unsetPieces(board, player2.pieces),
     isPlayer2Ready: ({ game, board, player2 }) =>
-      game.status === GameStatus.Pending &&
+      game.status < GameStatus.Player2Ready &&
       unsetPieces(board, player2.pieces).length === 0,
     cellSelected: ({ cellSelected }) => cellSelected,
     pieceSelected: ({ cellSelected }) => cellSelected?.piece ?? null

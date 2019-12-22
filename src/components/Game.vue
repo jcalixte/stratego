@@ -3,9 +3,9 @@
     <aside v-if="player1">
       <h4>
         Joueur 1
-        <span v-if="isPlayer1Ready">prêt&nbsp;!</span>
       </h4>
       <PlayerPiece :player="player1" :pieces="player1UnsetPieces" />
+      <button v-if="isPlayer1Ready" @click="player1Ready">je suis prêt</button>
     </aside>
     <section class="board">
       <section
@@ -24,16 +24,18 @@
     <aside v-if="player2">
       <h4>
         Joueur 2
-        <span v-if="isPlayer2Ready">prêt&nbsp;!</span>
       </h4>
       <PlayerPiece :player="player2" :pieces="player2UnsetPieces" />
+      <button v-if="isPlayer1Ready && isPlayer2Ready" @click="player2Ready">
+        je suis prêt
+      </button>
     </aside>
   </section>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { Getter } from 'vuex-class'
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Getter, Action } from 'vuex-class'
 
 import { IBoard } from '@/models/ICell'
 import { initBoard } from '@/services/BoardService'
@@ -41,6 +43,8 @@ import Cell from '@/components/Cell.vue'
 import PlayerPiece from '@/components/PlayerPiece.vue'
 import { IPlayer } from '@/models/IPlayer'
 import { IPiece } from '../models/IPiece'
+import { IGame } from '../models/IGame'
+import { GameStatus } from '../enums/GameStatus'
 
 @Component({
   components: {
@@ -66,6 +70,20 @@ export default class Game extends Vue {
   private isPlayer1Ready!: boolean
   @Getter
   private isPlayer2Ready!: boolean
+
+  @Action
+  private player1Ready!: any
+  @Action
+  private player2Ready!: any
+  @Action
+  private timeToPlay!: any
+
+  @Watch('game', { deep: true, immediate: true })
+  private onGameChange(game: IGame) {
+    if (game.status <= GameStatus.Player2Ready) {
+      this.timeToPlay()
+    }
+  }
 }
 </script>
 

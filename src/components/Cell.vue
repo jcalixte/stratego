@@ -89,6 +89,9 @@ export default class Cell extends Vue {
   }
 
   private get colorZone() {
+    if (this.game.status >= GameStatus.Live) {
+      return null
+    }
     if (this.colorPlayer === ColorPlayer.Red) {
       return 'red'
     }
@@ -129,7 +132,7 @@ section {
     font-size: 10px;
   }
   &.odd {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(43, 134, 50, 0.3);
   }
 
   .red {
