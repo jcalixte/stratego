@@ -80,7 +80,7 @@ export default class Game extends Vue {
 
   @Watch('game', { deep: true, immediate: true })
   private onGameChange(game: IGame) {
-    if (game.status <= GameStatus.Player2Ready) {
+    if (game.status === GameStatus.Player2Ready) {
       this.timeToPlay()
     }
   }
