@@ -5,6 +5,7 @@ import { IPlayer } from '@/models/IPlayer'
 import { initPlayerPieces } from './PlayerService'
 import { GameStatus } from '@/enums/GameStatus'
 import { PieceType } from '@/enums/PieceType'
+import { Rank } from '@/enums/Rank'
 
 export const initBoard = (): IBoard => {
   const rows: ICell[] = Array.from({ length: 10 }, (_c, col: number) => ({
@@ -92,7 +93,49 @@ export const isCellSelectable = (cell: ICell, status: GameStatus): boolean => {
 
 export const getPossibleMoves = (
   board: IBoard,
-  cellSelected: ICell | null
+  cell: ICell | null
 ): ICell[] => {
-  return []
+  if (!cell?.piece) {
+    return []
+  }
+  return [...getHorizontalMoves(board, cell), ...getVerticalMoves(board, cell)]
+}
+
+const getVerticalMoves = (board: IBoard, cell: ICell): ICell[] => {
+  if (!cell.piece) {
+    return []
+  }
+  const { piece } = cell
+  const maxMove = piece.rank === Rank.Scout ? 10 : 1
+  const column = board
+    .flat()
+    .filter((c) => c.col === cell.col)
+    .filter(
+      (c, index) =>
+        c.row !== cell.row &&
+        Math.abs(cell.row - index) <= maxMove &&
+        !hasSameColorPiece(cell, c) &&
+        isCellPlayable(c.row, c.col)
+    )
+  return column
+}
+
+const getHorizontalMoves = (board: IBoard, cell: ICell): ICell[] => {
+  if (!cell.piece) {
+    return []
+  }
+  const { piece } = cell
+  const maxMove = piece.rank === Rank.Scout ? 10 : 1
+  const row = board[cell.row].filter(
+    (c, index) =>
+      c.col !== cell.col &&
+      Math.abs(cell.col - index) <= maxMove &&
+      !hasSameColorPiece(cell, c) &&
+      isCellPlayable(c.row, c.col)
+  )
+  return row
+}
+
+const hasSameColorPiece = (cell: ICell, moveCell: ICell): boolean => {
+  return cell.piece?.color === moveCell.piece?.color
 }

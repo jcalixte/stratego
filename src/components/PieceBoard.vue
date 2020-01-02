@@ -1,9 +1,7 @@
 <template>
   <div class="piece-board" draggable="true" @dragstart="dragstart">
-    <div>
-      <span>{{ piece.rank }}</span>
-    </div>
     <img v-if="hasAsset" :src="getAsset()" :alt="piece.rank" />
+    <div>{{ piece.rank }}</div>
   </div>
 </template>
 
