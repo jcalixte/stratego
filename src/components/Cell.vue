@@ -4,8 +4,11 @@
     :class="{
       odd: isPlayable && isOdd,
       playable: isPlayable,
-      'non-playable': !isPlayable
+      'non-playable': !isPlayable,
+      'is-selected': isSelected,
+      'is-possible-move': isPossibleMove
     }"
+    @click="onClick"
     @dblclick="clear"
     @dragover="dragover"
     @drop="drop"
@@ -24,7 +27,8 @@ import { ICell } from '../models/ICell'
 import PieceBoard from './PieceBoard.vue'
 import {
   getPlayerZoneByRowIndex,
-  isCellPlayable
+  isCellPlayable,
+  isCellSelectable
 } from '@/services/BoardService'
 import { getPlayerAndPieceId } from '@/services/PlayerService'
 import { ColorPlayer } from '../enums/ColorPlayer'
@@ -47,8 +51,14 @@ export default class Cell extends Vue {
   private player1!: IPlayer
   @Getter
   private player2!: IPlayer
+  @Getter
+  private cellSelected!: ICell
+  @Getter
+  private possibleMoves!: ICell[]
   @Action
   private setPieceToCell!: any
+  @Action
+  private selectPiece!: any
 
   private dragover(event: any) {
     event.preventDefault()
@@ -67,6 +77,36 @@ export default class Cell extends Vue {
     if (piece) {
       this.setPieceToCell({ cell: this.cell, piece })
     }
+  }
+
+  private onClick() {
+    if (this.game.status < GameStatus.Live) {
+      return
+    }
+
+    if (isCellSelectable(this.cell, this.game.status)) {
+      this.selectPiece({ cell: this.cell })
+    }
+  }
+
+  private get isSelected(): boolean {
+    if (!this.cellSelected) {
+      return false
+    }
+
+    return (
+      this.cell.row === this.cellSelected.row &&
+      this.cell.col === this.cellSelected.col
+    )
+  }
+
+  private get isPossibleMove(): boolean {
+    if (!this.cellSelected || this.isSelected) {
+      return false
+    }
+    return this.possibleMoves.some(
+      (cell) => cell.row === this.cell.row && cell.col === this.cell.col
+    )
   }
 
   private get id(): string {
@@ -131,8 +171,17 @@ section {
   pre {
     font-size: 10px;
   }
+
   &.odd {
     background-color: rgba(43, 134, 50, 0.3);
+  }
+
+  &.is-selected {
+    background-color: rgba(73, 151, 165, 0.7);
+  }
+
+  &.is-possible-move {
+    background-color: rgba(31, 134, 0, 0.7);
   }
 
   .red {

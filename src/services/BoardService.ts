@@ -3,6 +3,8 @@ import { IPiece } from '@/models/IPiece'
 import { ColorPlayer } from '@/enums/ColorPlayer'
 import { IPlayer } from '@/models/IPlayer'
 import { initPlayerPieces } from './PlayerService'
+import { GameStatus } from '@/enums/GameStatus'
+import { PieceType } from '@/enums/PieceType'
 
 export const initBoard = (): IBoard => {
   const rows: ICell[] = Array.from({ length: 10 }, (_c, col: number) => ({
@@ -70,4 +72,27 @@ export const initPlayer = (color: ColorPlayer): IPlayer => {
     color,
     pieces: initPlayerPieces(color)
   }
+}
+
+export const isCellSelectable = (cell: ICell, status: GameStatus): boolean => {
+  if (!cell.piece) {
+    return false
+  }
+  if (cell.piece.type !== PieceType.Unit) {
+    return false
+  }
+  const isPlayer1Playing =
+    cell.piece.color === ColorPlayer.Blue &&
+    status === GameStatus.Player1Playing
+  const isPlayer2Playing =
+    cell.piece.color === ColorPlayer.Red && status === GameStatus.Player2Playing
+
+  return isPlayer1Playing || isPlayer2Playing
+}
+
+export const getPossibleMoves = (
+  board: IBoard,
+  cellSelected: ICell | null
+): ICell[] => {
+  return []
 }

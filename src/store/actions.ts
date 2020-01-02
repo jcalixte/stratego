@@ -7,7 +7,8 @@ import {
   CLEAR_BOARD,
   PLAYER_1_READY,
   PLAYER_2_READY,
-  PLAY_PLAYER_ONE
+  PLAY_PLAYER_ONE,
+  SELECT_PIECE
 } from './mutations'
 import uuid from 'uuid/v4'
 
@@ -20,6 +21,11 @@ export default {
   setPieceToCell({ commit }, { piece, cell }: IPieceToCell) {
     if (cell) {
       commit(SET_PIECE_TO_CELL, { piece, cell })
+    }
+  },
+  selectPiece({ commit }, { cell }) {
+    if (cell) {
+      commit(SELECT_PIECE, { cell })
     }
   },
   clearBoard({ commit }) {

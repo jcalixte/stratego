@@ -6,6 +6,7 @@ import { GameStatus } from '@/enums/GameStatus'
 
 export const SET_GUID = 'SET_GUID'
 export const CLEAR_BOARD = 'CLEAR_BOARD'
+export const SELECT_PIECE = 'SELECT_PIECE'
 export const SET_PIECE_TO_CELL = 'SET_PIECE_TO_CELL'
 export const PLAYER_1_READY = 'PLAYER_1_READY'
 export const PLAYER_2_READY = 'PLAYER_2_READY'
@@ -28,6 +29,11 @@ export default {
       } else {
         cellBoard.piece = null
       }
+    }
+  },
+  [SELECT_PIECE](state, { cell }) {
+    if (cell) {
+      state.cellSelected = { ...cell }
     }
   },
   [CLEAR_BOARD]({ board }) {

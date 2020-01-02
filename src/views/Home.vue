@@ -1,20 +1,20 @@
 <template>
   <div class="home">
     <button @click="clearBoard">CLEAR</button>
-    <AddGame />
+    <DisplayStatus />
     <Game />
   </div>
 </template>
 
 <script>
-import AddGame from '@/components/AddGame.vue'
+import DisplayStatus from '@/components/DisplayStatus.vue'
 import Game from '@/components/Game.vue'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'home',
   components: {
-    AddGame,
+    DisplayStatus,
     Game
   },
   methods: {
