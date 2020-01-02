@@ -26,7 +26,7 @@
         Joueur 2
       </h4>
       <PlayerPiece :player="player2" :pieces="player2UnsetPieces" />
-      <button v-if="isPlayer1Ready && isPlayer2Ready" @click="player2Ready">
+      <button v-if="isPlayer2Ready" @click="player2Ready">
         je suis prêt
       </button>
     </aside>
