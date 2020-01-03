@@ -4,6 +4,8 @@ import { GameStatus } from '@/enums/GameStatus'
 import { IBoard } from '@/models/ICell'
 import { IPiece } from '@/models/IPiece'
 import { getPossibleMoves } from '@/services/BoardService'
+import { ColorPlayer } from '@/enums/ColorPlayer'
+import { PieceType } from '@/enums/PieceType'
 
 const boardPieces = (board: IBoard) =>
   board
@@ -38,5 +40,30 @@ export const getters: GetterTree<IState, IState> = {
   pieceSelected: ({ cellSelected }) => cellSelected?.piece ?? null,
   possibleMoves: ({ board, cellSelected }) =>
     getPossibleMoves(board, cellSelected),
-  turns: ({ turns }) => turns
+  turns: ({ turns }) => turns,
+  winner: ({ game, board, player1, player2 }) => {
+    if (game.status < GameStatus.Live) {
+      return null
+    }
+
+    const pieces = boardPieces(board)
+
+    const hasPlayer2AFlagOrAUnitInGame = pieces.some(
+      (piece) =>
+        piece?.color === ColorPlayer.Red &&
+        [PieceType.Flag, PieceType.Unit].includes(piece.type)
+    )
+    if (!hasPlayer2AFlagOrAUnitInGame) {
+      return player1
+    }
+
+    const hasPlayer1AFlagOrAUnitInGame = pieces.some(
+      (piece) =>
+        piece?.color === ColorPlayer.Blue &&
+        [PieceType.Flag, PieceType.Unit].includes(piece.type)
+    )
+    if (!hasPlayer1AFlagOrAUnitInGame) {
+      return player2
+    }
+  }
 }
