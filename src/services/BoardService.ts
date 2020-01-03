@@ -91,6 +91,20 @@ export const isCellSelectable = (cell: ICell, status: GameStatus): boolean => {
   return isPlayer1Playing || isPlayer2Playing
 }
 
+export const getWinnerPiece = (attacker: IPiece, defender: IPiece): IPiece => {
+  if (defender.type === PieceType.Bomb) {
+    return defender
+  }
+  if (defender.type === PieceType.Flag) {
+    return attacker
+  }
+  if (attacker.rank === Rank.Spy && defender.rank === Rank.Marshall) {
+    return attacker
+  }
+
+  return attacker.rank > defender.rank ? attacker : defender
+}
+
 export const getPossibleMoves = (
   board: IBoard,
   cell: ICell | null
@@ -98,15 +112,19 @@ export const getPossibleMoves = (
   if (!cell?.piece) {
     return []
   }
-  return [...getHorizontalMoves(board, cell), ...getVerticalMoves(board, cell)]
+  const moves = [
+    ...getHorizontalMoves(board, cell),
+    ...getVerticalMoves(board, cell)
+  ]
+  return moves
 }
 
 const getVerticalMoves = (board: IBoard, cell: ICell): ICell[] => {
   if (!cell.piece) {
     return []
   }
-  const { piece } = cell
-  const maxMove = piece.rank === Rank.Scout ? 10 : 1
+
+  const maxMove = cell.piece.rank === Rank.Scout ? 1 : 1
   const column = board
     .flat()
     .filter((c) => c.col === cell.col)
@@ -114,8 +132,7 @@ const getVerticalMoves = (board: IBoard, cell: ICell): ICell[] => {
       (c, index) =>
         c.row !== cell.row &&
         Math.abs(cell.row - index) <= maxMove &&
-        !hasSameColorPiece(cell, c) &&
-        isCellPlayable(c.row, c.col)
+        canPlayOnThisCell(cell, c)
     )
   return column
 }
@@ -124,16 +141,22 @@ const getHorizontalMoves = (board: IBoard, cell: ICell): ICell[] => {
   if (!cell.piece) {
     return []
   }
-  const { piece } = cell
-  const maxMove = piece.rank === Rank.Scout ? 10 : 1
+
+  const maxMove = cell.piece.rank === Rank.Scout ? 1 : 1
   const row = board[cell.row].filter(
     (c, index) =>
       c.col !== cell.col &&
       Math.abs(cell.col - index) <= maxMove &&
-      !hasSameColorPiece(cell, c) &&
-      isCellPlayable(c.row, c.col)
+      canPlayOnThisCell(cell, c)
   )
   return row
+}
+
+const canPlayOnThisCell = (fromCell: ICell, toCell: ICell): boolean => {
+  return (
+    !hasSameColorPiece(fromCell, toCell) &&
+    isCellPlayable(toCell.row, toCell.col)
+  )
 }
 
 const hasSameColorPiece = (cell: ICell, moveCell: ICell): boolean => {

@@ -6,5 +6,5 @@ export interface IPiece {
   id: string
   color: ColorPlayer
   type: PieceType
-  rank?: Rank
+  rank: Rank
 }

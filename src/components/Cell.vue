@@ -52,13 +52,15 @@ export default class Cell extends Vue {
   @Getter
   private player2!: IPlayer
   @Getter
-  private cellSelected!: ICell
+  private cellSelected!: ICell | null
   @Getter
   private possibleMoves!: ICell[]
   @Action
   private setPieceToCell!: any
   @Action
   private selectPiece!: any
+  @Action
+  private playFinished!: any
 
   private dragover(event: any) {
     event.preventDefault()
@@ -81,6 +83,13 @@ export default class Cell extends Vue {
 
   private onClick() {
     if (this.game.status < GameStatus.Live) {
+      return
+    }
+
+    if (this.cellSelected && this.isPossibleMove && this.cellSelected.piece) {
+      this.setPieceToCell({ cell: this.cell, piece: this.cellSelected.piece })
+      this.selectPiece({ cell: null })
+      this.playFinished()
       return
     }
 

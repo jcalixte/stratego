@@ -5,6 +5,7 @@ import { IPlayer } from '@/models/IPlayer'
 import { IGame } from '@/models/IGame'
 import { initPlayer, initBoard } from '@/services/BoardService'
 import { initGame } from '@/services/GameService'
+import { ITurn } from '@/models/ITurn'
 
 export interface IState {
   board: IBoard
@@ -13,6 +14,7 @@ export interface IState {
   cellSelected: ICell | null
   player1: IPlayer
   player2: IPlayer
+  turns: ITurn[]
 }
 
 const state: IState = {
@@ -21,7 +23,8 @@ const state: IState = {
   cellSelected: null,
   player1: initPlayer(ColorPlayer.Blue),
   player2: initPlayer(ColorPlayer.Red),
-  guid: ''
+  guid: '',
+  turns: []
 }
 
 export default state

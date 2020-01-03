@@ -37,5 +37,6 @@ export const getters: GetterTree<IState, IState> = {
   cellSelected: ({ cellSelected }) => cellSelected,
   pieceSelected: ({ cellSelected }) => cellSelected?.piece ?? null,
   possibleMoves: ({ board, cellSelected }) =>
-    getPossibleMoves(board, cellSelected)
+    getPossibleMoves(board, cellSelected),
+  turns: ({ turns }) => turns
 }

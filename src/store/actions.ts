@@ -8,7 +8,8 @@ import {
   PLAYER_1_READY,
   PLAYER_2_READY,
   PLAY_PLAYER_ONE,
-  SELECT_PIECE
+  SELECT_PIECE,
+  PLAY_FINISHED
 } from './mutations'
 import uuid from 'uuid/v4'
 
@@ -24,9 +25,7 @@ export default {
     }
   },
   selectPiece({ commit }, { cell }) {
-    if (cell) {
-      commit(SELECT_PIECE, { cell })
-    }
+    commit(SELECT_PIECE, { cell })
   },
   clearBoard({ commit }) {
     commit(CLEAR_BOARD)
@@ -39,5 +38,8 @@ export default {
   },
   timeToPlay({ commit }) {
     commit(PLAY_PLAYER_ONE)
+  },
+  playFinished({ commit }) {
+    commit(PLAY_FINISHED)
   }
 } as ActionTree<IState, IState>

@@ -6,13 +6,48 @@ import { ColorPlayer } from '@/enums/ColorPlayer'
 export const initPlayerPieces = (color: ColorPlayer): IPiece[] => {
   let i = 0
   return [
-    { color, type: PieceType.Flag, id: `${color}-${i++}-${PieceType.Flag}` },
-    { color, type: PieceType.Bomb, id: `${color}-${i++}-${PieceType.Bomb}` },
-    { color, type: PieceType.Bomb, id: `${color}-${i++}-${PieceType.Bomb}` },
-    { color, type: PieceType.Bomb, id: `${color}-${i++}-${PieceType.Bomb}` },
-    { color, type: PieceType.Bomb, id: `${color}-${i++}-${PieceType.Bomb}` },
-    { color, type: PieceType.Bomb, id: `${color}-${i++}-${PieceType.Bomb}` },
-    { color, type: PieceType.Bomb, id: `${color}-${i++}-${PieceType.Bomb}` },
+    {
+      color,
+      type: PieceType.Flag,
+      id: `${color}-${i++}-${PieceType.Flag}`,
+      rank: Rank.Na
+    },
+    {
+      color,
+      type: PieceType.Bomb,
+      id: `${color}-${i++}-${PieceType.Bomb}`,
+      rank: Rank.Na
+    },
+    {
+      color,
+      type: PieceType.Bomb,
+      id: `${color}-${i++}-${PieceType.Bomb}`,
+      rank: Rank.Na
+    },
+    {
+      color,
+      type: PieceType.Bomb,
+      id: `${color}-${i++}-${PieceType.Bomb}`,
+      rank: Rank.Na
+    },
+    {
+      color,
+      type: PieceType.Bomb,
+      id: `${color}-${i++}-${PieceType.Bomb}`,
+      rank: Rank.Na
+    },
+    {
+      color,
+      type: PieceType.Bomb,
+      id: `${color}-${i++}-${PieceType.Bomb}`,
+      rank: Rank.Na
+    },
+    {
+      color,
+      type: PieceType.Bomb,
+      id: `${color}-${i++}-${PieceType.Bomb}`,
+      rank: Rank.Na
+    },
     {
       color,
       type: PieceType.Unit,

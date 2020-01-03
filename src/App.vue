@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Stratego</router-link>
+      <router-link to="/">Stratego com Julien e Thainá</router-link>
     </div>
     <router-view />
   </div>
