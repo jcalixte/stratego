@@ -1,25 +1,15 @@
 import { GetterTree } from 'vuex'
 import { IState } from '@/store/state'
 import { GameStatus } from '@/enums/GameStatus'
-import { IBoard } from '@/models/ICell'
-import { IPiece } from '@/models/IPiece'
-import { getPossibleMoves } from '@/services/BoardService'
+import {
+  getPossibleMoves,
+  onePieceCanMove,
+  boardPieces,
+  unsetPieces
+} from '@/services/BoardService'
 import { ColorPlayer } from '@/enums/ColorPlayer'
 import { PieceType } from '@/enums/PieceType'
 
-const boardPieces = (board: IBoard) =>
-  board
-    .flat()
-    .filter((cell) => cell.piece)
-    .map((cell) => cell.piece)
-
-const boardPieceIds = (pieces: Array<IPiece | null>) =>
-  pieces.map((piece) => piece?.id)
-
-const unsetPieces = (board: IBoard, pieces: IPiece[]) => {
-  const pieceIds = boardPieceIds(boardPieces(board))
-  return pieces.filter((piece) => !pieceIds.includes(piece.id))
-}
 export const getters: GetterTree<IState, IState> = {
   game: ({ game }) => game,
   board: ({ board }) => board,
@@ -48,21 +38,19 @@ export const getters: GetterTree<IState, IState> = {
 
     const pieces = boardPieces(board)
 
-    const hasPlayer2AFlagOrAUnitInGame = pieces.some(
+    const hasPlayer2HisFlag = pieces.some(
       (piece) =>
-        piece?.color === ColorPlayer.Red &&
-        [PieceType.Flag, PieceType.Unit].includes(piece.type)
+        piece.type === PieceType.Flag && piece?.color === ColorPlayer.Red
     )
-    if (!hasPlayer2AFlagOrAUnitInGame) {
+    if (!hasPlayer2HisFlag || !onePieceCanMove(board, ColorPlayer.Red)) {
       return player1
     }
 
-    const hasPlayer1AFlagOrAUnitInGame = pieces.some(
+    const hasPlayer1HisFlag = pieces.some(
       (piece) =>
-        piece?.color === ColorPlayer.Blue &&
-        [PieceType.Flag, PieceType.Unit].includes(piece.type)
+        piece.type === PieceType.Flag && piece?.color === ColorPlayer.Blue
     )
-    if (!hasPlayer1AFlagOrAUnitInGame) {
+    if (!hasPlayer1HisFlag || !onePieceCanMove(board, ColorPlayer.Blue)) {
       return player2
     }
   }

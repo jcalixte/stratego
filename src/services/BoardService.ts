@@ -105,6 +105,30 @@ export const getWinnerPiece = (attacker: IPiece, defender: IPiece): IPiece => {
   return attacker.rank > defender.rank ? attacker : defender
 }
 
+export const onePieceCanMove = (board: IBoard, color: ColorPlayer) => {
+  return board
+    .flat()
+    .filter(
+      (cell: ICell) =>
+        cell.piece?.color === color && cell.piece.type === PieceType.Unit
+    )
+    .some((cell) => getPossibleMoves(board, cell).length > 0)
+}
+
+export const boardPieces = (board: IBoard) =>
+  board
+    .flat()
+    .filter((cell) => cell.piece)
+    .map((cell) => cell.piece as IPiece)
+
+export const boardPieceIds = (pieces: Array<IPiece | null>) =>
+  pieces.map((piece) => piece?.id)
+
+export const unsetPieces = (board: IBoard, pieces: IPiece[]) => {
+  const pieceIds = boardPieceIds(boardPieces(board))
+  return pieces.filter((piece) => !pieceIds.includes(piece.id))
+}
+
 export const getPossibleMoves = (
   board: IBoard,
   cell: ICell | null
