@@ -9,7 +9,8 @@ import {
   PLAYER_2_READY,
   PLAY_PLAYER_ONE,
   SELECT_PIECE,
-  PLAY_FINISHED
+  PLAY_FINISHED,
+  GAME_FINISHED
 } from './mutations'
 import uuid from 'uuid/v4'
 
@@ -41,5 +42,8 @@ export default {
   },
   playFinished({ commit }) {
     commit(PLAY_FINISHED)
+  },
+  gameFinished({ commit }) {
+    commit(GAME_FINISHED)
   }
 } as ActionTree<IState, IState>

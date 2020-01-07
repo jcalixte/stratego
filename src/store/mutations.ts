@@ -13,6 +13,7 @@ export const PLAYER_1_READY = 'PLAYER_1_READY'
 export const PLAYER_2_READY = 'PLAYER_2_READY'
 export const PLAY_PLAYER_ONE = 'TIME_TO_PLAY'
 export const PLAY_FINISHED = 'PLAY_FINISHED'
+export const GAME_FINISHED = 'GAME_FINISHED'
 
 export interface IPieceToCell {
   piece: IPiece
@@ -83,5 +84,8 @@ export default {
         game.status = GameStatus.Player1Playing
         break
     }
+  },
+  [GAME_FINISHED]({ game }) {
+    game.status = GameStatus.Ended
   }
 } as MutationTree<IState>

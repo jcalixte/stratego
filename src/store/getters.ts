@@ -53,5 +53,6 @@ export const getters: GetterTree<IState, IState> = {
     if (!hasPlayer1HisFlag || !onePieceCanMove(board, ColorPlayer.Blue)) {
       return player2
     }
+    return null
   }
 }
