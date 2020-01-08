@@ -3,7 +3,7 @@ import { IState } from './state'
 import { IPiece } from '@/models/IPiece'
 import { ICell } from '@/models/ICell'
 import { GameStatus } from '@/enums/GameStatus'
-import { getWinnerPiece } from '@/services/BoardService'
+import { getFightResultPiece } from '@/services/BoardService'
 
 export const SET_GUID = 'SET_GUID'
 export const CLEAR_BOARD = 'CLEAR_BOARD'
@@ -32,9 +32,9 @@ export default {
 
     const cellBoard = state.board[cell.row][cell.col]
     if (cellBoard) {
-      const setPiece = (newPiece: IPiece | null, isWinner = false) => {
-        if (newPiece) {
-          cellBoard.piece = { ...newPiece }
+      const setPiece = (winner: IPiece | null, loser: IPiece | null = null) => {
+        if (winner) {
+          cellBoard.piece = { ...winner }
         } else {
           cellBoard.piece = null
         }
@@ -44,13 +44,17 @@ export default {
             colorPlayer: piece.color,
             from: fromCell,
             to: cellBoard,
-            winner: isWinner && newPiece ? newPiece : undefined
+            winner: winner && loser ? winner : undefined,
+            loser: winner && loser ? loser : undefined
           })
         }
       }
       if (cellBoard.piece) {
-        const winnerPiece = getWinnerPiece(piece, cellBoard.piece)
-        setPiece(winnerPiece, true)
+        const [winnerPiece, loserPiece] = getFightResultPiece(
+          piece,
+          cellBoard.piece
+        )
+        setPiece(winnerPiece, loserPiece)
       } else {
         setPiece(piece)
       }

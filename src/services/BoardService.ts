@@ -96,21 +96,26 @@ export const isCellSelectable = (cell: ICell, status: GameStatus): boolean => {
   return isPlayer1Playing || isPlayer2Playing
 }
 
-export const getWinnerPiece = (attacker: IPiece, defender: IPiece): IPiece => {
+export const getFightResultPiece = (
+  attacker: IPiece,
+  defender: IPiece
+): IPiece[] => {
   if (defender.type === PieceType.Bomb) {
     if (attacker.rank === Rank.Miner) {
-      return attacker
+      return [attacker, defender]
     }
-    return defender
+    return [defender, attacker]
   }
   if (defender.type === PieceType.Flag) {
-    return attacker
+    return [attacker, defender]
   }
   if (attacker.rank === Rank.Spy && defender.rank === Rank.Marshall) {
-    return attacker
+    return [attacker, defender]
   }
 
-  return attacker.rank > defender.rank ? attacker : defender
+  return attacker.rank > defender.rank
+    ? [attacker, defender]
+    : [defender, attacker]
 }
 
 export const onePieceCanMove = (board: IBoard, color: ColorPlayer) => {

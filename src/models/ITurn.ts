@@ -7,4 +7,5 @@ export interface ITurn {
   from: ICell
   to: ICell
   winner?: IPiece
+  loser?: IPiece
 }
