@@ -7,14 +7,19 @@ import { GameStatus } from '@/enums/GameStatus'
 import { PieceType } from '@/enums/PieceType'
 import { Rank } from '@/enums/Rank'
 
-export const initBoard = (): IBoard => {
-  const rows: ICell[] = Array.from({ length: 10 }, (_c, col: number) => ({
-    row: 0,
-    col,
-    piece: null
-  }))
+const BOARD_SIZE = 10
 
-  return Array.from({ length: 10 }, (_r, row: number) =>
+export const initBoard = (): IBoard => {
+  const rows: ICell[] = Array.from(
+    { length: BOARD_SIZE },
+    (_c, col: number) => ({
+      row: 0,
+      col,
+      piece: null
+    })
+  )
+
+  return Array.from({ length: BOARD_SIZE }, (_r, row: number) =>
     rows.map((cell: ICell) => ({ ...cell, row }))
   )
 }
@@ -93,6 +98,9 @@ export const isCellSelectable = (cell: ICell, status: GameStatus): boolean => {
 
 export const getWinnerPiece = (attacker: IPiece, defender: IPiece): IPiece => {
   if (defender.type === PieceType.Bomb) {
+    if (attacker.rank === Rank.Miner) {
+      return attacker
+    }
     return defender
   }
   if (defender.type === PieceType.Flag) {
@@ -140,7 +148,11 @@ export const getPossibleMoves = (
     ...getHorizontalMoves(board, cell),
     ...getVerticalMoves(board, cell)
   ]
-  return moves
+  const color = cell.piece.color
+  const extraMoves = [cell, ...moves]
+    .map((move) => getExtraAttachMoves(board, move, color))
+    .flat()
+  return [...moves, ...extraMoves]
 }
 
 const getVerticalMoves = (board: IBoard, cell: ICell): ICell[] => {
@@ -148,7 +160,7 @@ const getVerticalMoves = (board: IBoard, cell: ICell): ICell[] => {
     return []
   }
 
-  const maxMove = cell.piece.rank === Rank.Scout ? 1 : 1
+  const maxMove = cell.piece.rank === Rank.Scout ? BOARD_SIZE : 1
   const column = board
     .flat()
     .filter((c) => c.col === cell.col)
@@ -158,6 +170,11 @@ const getVerticalMoves = (board: IBoard, cell: ICell): ICell[] => {
         Math.abs(cell.row - index) <= maxMove &&
         canPlayOnThisCell(cell, c)
     )
+
+  if (maxMove > 1) {
+    return findingMinAndMax(column, cell, 'row')
+  }
+
   return column
 }
 
@@ -166,23 +183,86 @@ const getHorizontalMoves = (board: IBoard, cell: ICell): ICell[] => {
     return []
   }
 
-  const maxMove = cell.piece.rank === Rank.Scout ? 1 : 1
+  const maxMove = cell.piece.rank === Rank.Scout ? BOARD_SIZE : 1
   const row = board[cell.row].filter(
     (c, index) =>
       c.col !== cell.col &&
       Math.abs(cell.col - index) <= maxMove &&
       canPlayOnThisCell(cell, c)
   )
+  if (maxMove > 1) {
+    return findingMinAndMax(row, cell, 'col')
+  }
   return row
 }
 
-const canPlayOnThisCell = (fromCell: ICell, toCell: ICell): boolean => {
-  return (
-    !hasSameColorPiece(fromCell, toCell) &&
-    isCellPlayable(toCell.row, toCell.col)
-  )
+const findingMinAndMax = (
+  cells: ICell[],
+  fromCell: ICell,
+  rowOrCol: 'row' | 'col'
+) => {
+  const colIndexes = cells.map((c) => c[rowOrCol])
+  if (colIndexes.length === 0) {
+    return cells
+  }
+
+  let maxIndex = fromCell[rowOrCol]
+  let minIndex = fromCell[rowOrCol]
+
+  for (let i = 1; i < BOARD_SIZE; i++) {
+    const plus = fromCell[rowOrCol] + i
+    if (colIndexes.some((index) => index === plus)) {
+      maxIndex = plus
+    } else {
+      break
+    }
+  }
+
+  for (let i = 1; i < BOARD_SIZE; i++) {
+    const minus = fromCell[rowOrCol] - i
+    if (colIndexes.some((index) => index === minus)) {
+      minIndex = minus
+    } else {
+      break
+    }
+  }
+
+  return cells.filter((c) => minIndex <= c[rowOrCol] && c[rowOrCol] <= maxIndex)
 }
 
-const hasSameColorPiece = (cell: ICell, moveCell: ICell): boolean => {
-  return cell.piece?.color === moveCell.piece?.color
+const getExtraAttachMoves = (
+  board: IBoard,
+  cell: ICell,
+  color: ColorPlayer
+): ICell[] => {
+  const { row, col } = cell
+
+  const otherColor =
+    color === ColorPlayer.Blue ? ColorPlayer.Red : ColorPlayer.Blue
+
+  const up = getCell(board, row - 1, col, otherColor)
+  const bottom = getCell(board, row + 1, col, otherColor)
+  const left = getCell(board, row, col - 1, otherColor)
+  const right = getCell(board, row, col + 1, otherColor)
+
+  return [up, bottom, left, right].filter((cell) => !!cell) as ICell[]
+}
+
+const getCell = (
+  board: IBoard,
+  row: number,
+  col: number,
+  color: ColorPlayer
+): ICell | null => {
+  if (!board[row] || !board[row][col]) {
+    return null
+  }
+  if (board[row][col].piece?.color === color) {
+    return board[row][col]
+  }
+  return null
+}
+
+const canPlayOnThisCell = (fromCell: ICell, toCell: ICell): boolean => {
+  return !toCell.piece && isCellPlayable(toCell.row, toCell.col)
 }

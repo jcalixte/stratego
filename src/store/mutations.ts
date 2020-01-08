@@ -63,8 +63,10 @@ export default {
       state.cellSelected = null
     }
   },
-  [CLEAR_BOARD]({ board }) {
-    board.flat().forEach((cell) => (cell.piece = null))
+  [CLEAR_BOARD](state) {
+    state.board.flat().forEach((cell) => (cell.piece = null))
+    state.game.status = GameStatus.Pending
+    state.turns = []
   },
   [PLAYER_1_READY]({ game }) {
     game.status = GameStatus.Player1Ready

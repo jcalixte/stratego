@@ -5,6 +5,7 @@
       odd: isPlayable && isOdd,
       playable: isPlayable,
       'non-playable': !isPlayable,
+      'has-piece': !!cell.piece,
       'is-selected': isSelected,
       'is-possible-move': isPossibleMove
     }"
@@ -191,6 +192,10 @@ section {
 
   &.is-possible-move {
     background-color: rgba(31, 134, 0, 0.7);
+
+    &.has-piece {
+      background-color: rgba(212, 79, 1, 0.7);
+    }
   }
 
   .red {
