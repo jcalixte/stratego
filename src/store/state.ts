@@ -1,28 +1,27 @@
-import { Phase } from '@/enums/Phase'
-import { ColorPlayer } from '@/enums/ColorPlayer'
 import { ICell, IBoard } from '@/models/ICell'
 import { IPlayer } from '@/models/IPlayer'
 import { IGame } from '@/models/IGame'
-import { initPlayer, initBoard } from '@/services/BoardService'
-import { initGame } from '@/services/GameService'
 import { ITurn } from '@/models/ITurn'
+import uuid from 'uuid/v4'
 
 export interface IState {
-  board: IBoard
-  game: IGame
+  uuid: string
+  board: IBoard | null
+  game: IGame | null
   guid: string
   cellSelected: ICell | null
-  player1: IPlayer
-  player2: IPlayer
+  player1: IPlayer | null
+  player2: IPlayer | null
   turns: ITurn[]
 }
 
 const state: IState = {
-  board: initBoard(),
-  game: initGame(),
+  uuid: uuid(),
+  board: null,
+  game: null,
   cellSelected: null,
-  player1: initPlayer(ColorPlayer.Blue),
-  player2: initPlayer(ColorPlayer.Red),
+  player1: null,
+  player2: null,
   guid: '',
   turns: []
 }

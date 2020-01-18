@@ -13,26 +13,32 @@ import { PieceType } from '@/enums/PieceType'
 export const getters: GetterTree<IState, IState> = {
   game: ({ game }) => game,
   board: ({ board }) => board,
-  boardPieces: ({ board }) => boardPieces(board),
+  boardPieces: ({ board }) => board && boardPieces(board),
   player1: ({ player1 }) => player1,
   player1UnsetPieces: ({ board, player1 }) =>
-    unsetPieces(board, player1.pieces),
+    board && player1 && unsetPieces(board, player1.pieces),
   isPlayer1Ready: ({ game, board, player1 }) =>
+    game &&
+    board &&
+    player1 &&
     game.status < GameStatus.Player1Ready &&
     unsetPieces(board, player1.pieces).length === 0,
   player2: ({ player2 }) => player2,
   player2UnsetPieces: ({ board, player2 }) =>
-    unsetPieces(board, player2.pieces),
+    board && player2 && unsetPieces(board, player2.pieces),
   isPlayer2Ready: ({ game, board, player2 }) =>
+    game &&
+    board &&
+    player2 &&
     game.status < GameStatus.Player2Ready &&
     unsetPieces(board, player2.pieces).length === 0,
   cellSelected: ({ cellSelected }) => cellSelected,
   pieceSelected: ({ cellSelected }) => cellSelected?.piece ?? null,
   possibleMoves: ({ board, cellSelected }) =>
-    getPossibleMoves(board, cellSelected),
+    board && getPossibleMoves(board, cellSelected),
   turns: ({ turns }) => turns,
   winner: ({ game, board, player1, player2 }) => {
-    if (game.status < GameStatus.Live) {
+    if (!game || !board || game.status < GameStatus.Live) {
       return null
     }
 

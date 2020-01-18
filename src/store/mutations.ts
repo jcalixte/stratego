@@ -4,8 +4,11 @@ import { IPiece } from '@/models/IPiece'
 import { ICell } from '@/models/ICell'
 import { GameStatus } from '@/enums/GameStatus'
 import { getFightResultPiece } from '@/services/BoardService'
+import { IGameDocument } from '@/models/IGameDocument'
+import { initGame } from '@/services/GameService'
 
 export const SET_GUID = 'SET_GUID'
+export const INIT_GAME = 'INIT_GAME'
 export const CLEAR_BOARD = 'CLEAR_BOARD'
 export const SELECT_PIECE = 'SELECT_PIECE'
 export const SET_PIECE_TO_CELL = 'SET_PIECE_TO_CELL'
@@ -24,7 +27,16 @@ export default {
   [SET_GUID](state, guid) {
     state.guid = guid
   },
+  [INIT_GAME](state, document: IGameDocument) {
+    state.board = document.board
+    state.game = initGame(document)
+    state.player1 = document.player1
+    state.player2 = document.player2
+  },
   [SET_PIECE_TO_CELL](state, { piece, cell }: IPieceToCell) {
+    if (!state.board) {
+      return
+    }
     const fromCell = state.board.flat().find((c) => c.piece?.id === piece.id)
     if (fromCell) {
       fromCell.piece = null
@@ -68,20 +80,35 @@ export default {
     }
   },
   [CLEAR_BOARD](state) {
+    if (!state.board || !state.game) {
+      return
+    }
     state.board.flat().forEach((cell) => (cell.piece = null))
     state.game.status = GameStatus.Pending
     state.turns = []
   },
   [PLAYER_1_READY]({ game }) {
+    if (!game) {
+      return
+    }
     game.status = GameStatus.Player1Ready
   },
   [PLAYER_2_READY]({ game }) {
+    if (!game) {
+      return
+    }
     game.status = GameStatus.Player2Ready
   },
   [PLAY_PLAYER_ONE]({ game }) {
+    if (!game) {
+      return
+    }
     game.status = GameStatus.Player1Playing
   },
   [PLAY_FINISHED]({ game }) {
+    if (!game) {
+      return
+    }
     switch (game.status) {
       case GameStatus.Player1Playing:
         game.status = GameStatus.Player2Playing
@@ -92,6 +119,9 @@ export default {
     }
   },
   [GAME_FINISHED]({ game }) {
+    if (!game) {
+      return
+    }
     game.status = GameStatus.Ended
   }
 } as MutationTree<IState>
