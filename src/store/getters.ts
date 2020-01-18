@@ -14,6 +14,7 @@ export const getters: GetterTree<IState, IState> = {
   game: ({ game }) => game,
   board: ({ board }) => board,
   boardPieces: ({ board }) => board && boardPieces(board),
+  isPlayer1: ({ guid, game }) => guid === game?.player1Uuid,
   player1: ({ player1 }) => player1,
   player1UnsetPieces: ({ board, player1 }) =>
     board && player1 && unsetPieces(board, player1.pieces),
@@ -23,6 +24,7 @@ export const getters: GetterTree<IState, IState> = {
     player1 &&
     game.status < GameStatus.Player1Ready &&
     unsetPieces(board, player1.pieces).length === 0,
+  isPlayer2: ({ guid, game }) => guid === game?.player2Uuid,
   player2: ({ player2 }) => player2,
   player2UnsetPieces: ({ board, player2 }) =>
     board && player2 && unsetPieces(board, player2.pieces),

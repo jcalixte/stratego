@@ -12,6 +12,18 @@ class Database {
     await this.local.put(game)
   }
 
+  public async saveRemote(game: IGameDocument) {
+    await this.db.put(game)
+  }
+
+  public async get(id: string): Promise<IGameDocument | null> {
+    const document = await this.db.get(id)
+    if (!document) {
+      return null
+    }
+    return document as IGameDocument
+  }
+
   public async joinGame(id: string, uuid: string) {
     const document = await this.db.get<IGameDocument>(id)
     if (document) {

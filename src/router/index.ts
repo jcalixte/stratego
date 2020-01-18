@@ -1,14 +1,21 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
+import GamePage from '../views/GamePage.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
+const routes: RouteConfig[] = [
   {
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/game/:id',
+    props: true,
+    name: 'game',
+    component: GamePage
   },
   {
     path: '/about',

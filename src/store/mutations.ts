@@ -23,15 +23,21 @@ export interface IPieceToCell {
   cell: ICell
 }
 
+type InitGameProp = {
+  document: IGameDocument
+  isPlayer1: boolean
+  isPlayer2: boolean
+}
+
 export default {
   [SET_GUID](state, guid) {
     state.guid = guid
   },
-  [INIT_GAME](state, document: IGameDocument) {
-    state.board = document.board
-    state.game = initGame(document)
-    state.player1 = document.player1
-    state.player2 = document.player2
+  [INIT_GAME](state, prop: InitGameProp) {
+    state.board = prop.document.board
+    state.game = initGame(prop.document)
+    state.player1 = prop.document.player1
+    state.player2 = prop.document.player2
   },
   [SET_PIECE_TO_CELL](state, { piece, cell }: IPieceToCell) {
     if (!state.board) {

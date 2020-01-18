@@ -1,27 +1,23 @@
 <template>
   <div class="home">
-    <button @click="clearBoard">CLEAR</button>
-    <DisplayStatus />
-    <Game />
-    <GameTurn />
+    <AddGame />
   </div>
 </template>
 
 <script>
-import DisplayStatus from '@/components/DisplayStatus.vue'
-import GameTurn from '@/components/GameTurn.vue'
-import Game from '@/components/Game.vue'
+import AddGame from '@/components/AddGame.vue'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'home',
   components: {
-    DisplayStatus,
-    GameTurn,
-    Game
+    AddGame
+  },
+  created() {
+    this.setGuid()
   },
   methods: {
-    ...mapActions(['clearBoard'])
+    ...mapActions(['setGuid'])
   }
 }
 </script>

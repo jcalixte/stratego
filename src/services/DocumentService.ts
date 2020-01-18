@@ -5,7 +5,7 @@ import { ColorPlayer } from '@/enums/ColorPlayer'
 
 export const createGame = (_id: string, player1Uuid: string): IGameDocument => {
   return {
-    _id,
+    _id: `${Date.now()}-${_id}`,
     player1Uuid,
     player2Uuid: '',
     board: initBoard(),

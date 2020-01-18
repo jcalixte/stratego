@@ -1,8 +1,9 @@
 <template>
   <div class="piece-board " draggable="true" @dragstart="dragstart">
-    <img v-if="hasAsset" :src="getAsset()" :alt="piece.rank" />
+    <img v-if="isPlayerPiece && hasAsset" :src="getAsset()" :alt="piece.rank" />
     <div class="player-color" :class="`color-${piece.color}`">
-      {{ piece.rank }}
+      <span v-if="isPlayerPiece">{{ piece.rank }}</span>
+      <span v-else>A</span>
     </div>
   </div>
 </template>
@@ -28,6 +29,20 @@ export default class PieceBoard extends Vue {
   private pieceAsset = PieceAsset
   @Getter
   private game!: IGame
+  @Getter
+  private isPlayer1!: boolean
+  @Getter
+  private isPlayer2!: boolean
+
+  private get isPlayerPiece(): boolean {
+    if (this.player === undefined) {
+      return true
+    }
+    return (
+      (this.player === ColorPlayer.Blue && this.isPlayer1) ||
+      (this.player === ColorPlayer.Red && this.isPlayer2)
+    )
+  }
 
   private hasAsset(): boolean {
     return (
@@ -54,7 +69,7 @@ export default class PieceBoard extends Vue {
   }
 
   private dragstart(event: any) {
-    if (this.player === undefined) {
+    if (this.player === undefined || !this.isPlayerPiece) {
       return
     }
     if (this.game.status >= GameStatus.Live) {
