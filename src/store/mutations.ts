@@ -34,6 +34,9 @@ export default {
     state.guid = guid
   },
   [INIT_GAME](state, prop: InitGameProp) {
+    if (!prop || !prop.document) {
+      return
+    }
     state.board = prop.document.board
     state.game = initGame(prop.document)
     state.player1 = prop.document.player1

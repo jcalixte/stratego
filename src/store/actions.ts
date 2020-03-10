@@ -38,7 +38,7 @@ export default {
         return null
       }
       await database.save(game)
-      commit(INIT_GAME, { game })
+      commit(INIT_GAME, { document: game })
       return game
     }
 
